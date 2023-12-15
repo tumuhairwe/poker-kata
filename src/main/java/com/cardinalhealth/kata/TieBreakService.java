@@ -10,7 +10,8 @@ import java.util.stream.Collectors;
 
 public class TieBreakService {
 
-    public static void breakSinglePairTie(PokerHand p1, PokerHand p2){
+    public static boolean breakSinglePairTie(PokerHand p1, PokerHand p2){
+        boolean tieIsBroken = false;
         // a) remove cards NOT forming the pair (in both)
         Optional<Map.Entry<CardValue, Long>> p1Card_with_countOfOne = p1.getCards()
                 .stream()
@@ -33,18 +34,23 @@ public class TieBreakService {
             if(p1Card_with_countOfOne.get().getKey().getValue() > p2Card_with_countOfOne.get().getKey().getValue()){
                 System.out.println("P1 wins");
                 System.out.println(p1Card_with_countOfOne.get().getKey());
+                tieIsBroken = true;
             }
             else if(p2Card_with_countOfOne.get().getKey().getValue() > p1Card_with_countOfOne.get().getKey().getValue()){
                 System.out.println("P2 wins");
                 System.out.println(p2Card_with_countOfOne.get().getKey());
+                tieIsBroken = true;
             }
         }
         else {
             System.out.println("We have an EXACT 2 pair tie (no fifth card)... Either we have invalid (input cards.size*() is not 5)" +
                     " or we are in the iteration after removing the fifith card and we are stucj with 4 cards that are exact ties");
         }
+
+        return tieIsBroken;
     }
-    public static void breakTwoPairTie(PokerHand p1, Map.Entry<Ranks, Long> p1Rank, PokerHand p2, Map.Entry<Ranks, Long> p2Rank) {
+    public static boolean breakTwoPairTie(PokerHand p1, Map.Entry<Ranks, Long> p1Rank, PokerHand p2, Map.Entry<Ranks, Long> p2Rank) {
+        boolean tieIsBroken = false;
         // determine which pair is higher -> use that value of the remaining card
         Map<CardValue, Long> p1GroupedByValue = p1.getCards()
                 .stream()
@@ -66,10 +72,19 @@ public class TieBreakService {
             if (p1RemainingCard.get().getKey().getValue() > p2RemainingCard.get().getKey().getValue()) {
                 System.out.println("P1 wins!");
                 printResults2(p1RemainingCard.get(), p2RemainingCard.get());
-            } else if (p2RemainingCard.get().getKey().getValue() > p1RemainingCard.get().getKey().getValue()) {
+                tieIsBroken = true;
+            } else if (p2RemainingCard.get().getKey().getValue() < p1RemainingCard.get().getKey().getValue()) {
                 System.out.println("P2 wins!");
+                printResults2(p1RemainingCard.get(), p2RemainingCard.get());
+                tieIsBroken = true;
+            }
+            else {
+                // log.error("Failed to break tie when we should have")
+                throw new RuntimeException("Failed to break tie");
             }
         }
+
+        return tieIsBroken;
     }
 
     private static void printResults2(Map.Entry<CardValue, Long> p1Rank, Map.Entry<CardValue, Long> p2Rank){

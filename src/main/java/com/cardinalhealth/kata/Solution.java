@@ -41,8 +41,28 @@ public class Solution {
                 System.out.println("There was a 2 pair tie. Time to choose the higher of the 2 (5th card)");
                 TieBreakService.breakTwoPairTie(p1, p1Rank, p2, p2Rank);
             }
+            else if(p1Rank.getKey() == Ranks.HIGH_CARD && p2Rank.getKey() == Ranks.HIGH_CARD){
+                // we have 2 HIGH_CARDS (i.e. no outright winner)
+
+                if(p1Rank.getValue() > p2Rank.getValue()){
+                    System.out.println("Both players had a HIGH_CARD: P1 Wins!!");
+                    System.out.println("p1 score =" + p1Rank.getValue());
+                }
+                if(p2Rank.getValue() > p1Rank.getValue()){
+                    System.out.println("Both players had a HIGH_CARD: P2 Wins!!");
+                    System.out.println("p1 score =" + p1Rank.getValue());
+                }
+                else {
+                    System.out.println("Both players had a HIGH_CARD of equal value. Need to draw again");
+                }
+                weHaveAWinner = true;
+            }
             else {
                 // unlikely == if it wasn't a 2 pair tie or 1 pair tie --- we would've had a Flush or RoyalFlush
+                System.out.println("DEBUG INFO: Player 1: input:" + playerOne + " card:" + p1.getCards()+ " rank: " + p1Rank);
+                System.out.println("DEBUG INFO: Player 2: input:" + playerTwo + " card:" + p2.getCards()+ " rank: " + p2Rank);
+
+                throw new RuntimeException("Something unxpected has happened with an entry that doesn't match any of the known rules. See log above^^");
             }
         }while (!weHaveAWinner);
 
