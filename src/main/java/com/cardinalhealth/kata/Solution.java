@@ -9,15 +9,16 @@ public class Solution {
     public static void main(String[] args) {
         // read input
         String playerOne = "2H 3D 5S 9C KD", playerTwo= "2C 3H 4S 8C AH";
-        //playerOne: 2H 4S 4C 2D 4H, playerTwo: 2S 8S AS QS 3S
-        //playerOne: 2H 3D 5S 9C KD, playerTwo: 2C 3H 4S 8C KH
-        //playerOne: 2H 3D 5S 9C KD, playerTwo: 2D 3H 5C 9S KH
+        //String playerOne = "2H 4S 4C 2D 4H", playerTwo ="2S 8S AS QS 3S";
+        //String playerOne = "2H 3D 5S 9C KD", playerTwo = "2C 3H 4S 8C KH";
+        //String playerOne = "2H 3D 5S 9C KD", playerTwo = "2D 3H 5C 9S KH";
 
         PokerHand p1 = PokerHand.from(playerOne);
         PokerHand p2 = PokerHand.from(playerTwo);
 
         // calculate rank
         RankCalculator calculator = new RankCalculator();
+        //RankCalculatorV2 calculatorv2 = new RankCalculatorV2();
         Map.Entry<Ranks, Long> p1Rank = calculator.apply(p1.getCards());
         Map.Entry<Ranks, Long> p2Rank = calculator.apply(p2.getCards());
 

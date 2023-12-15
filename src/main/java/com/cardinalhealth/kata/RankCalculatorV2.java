@@ -17,7 +17,7 @@ public class RankCalculatorV2  implements Function<List<Card>, Map.Entry<Ranks, 
 
     // Use Spring @Bean to create bean manually
     public RankCalculatorV2(){
-        // Spring could inject but we need to match order of evaluation based on defined rules (i.e.
+        // Spring could inject but we need to match order of evaluation based on defined rule
         predicateToFunctiobrRegistry.put(new IsStraightFlushPredicate(), new StraightFlushFunction());
         predicateToFunctiobrRegistry.put(new IsFourOfAKindPredicate(), new FourOfAKindFunction());
         predicateToFunctiobrRegistry.put(new IsFullHousePredicate(), new FullHouseFunction());
@@ -36,7 +36,6 @@ public class RankCalculatorV2  implements Function<List<Card>, Map.Entry<Ranks, 
             }
         }
 
-        //cards.sort(Comparator.comparing(Card::getValue));
         Collections.sort(cards, Collections.reverseOrder());
         CardValue c = cards.iterator().next().getValue();
         return Map.entry(Ranks.HIGH_CARD, Long.valueOf(c.getValue()));
