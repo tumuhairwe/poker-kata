@@ -35,6 +35,14 @@ public class Solution {
                 printResults1(p1Rank, p2Rank);
                 weHaveAWinner = true;
             }
+            else if(p1Rank.getKey() == Ranks.THREE_OF_A_KIND && p2Rank.getKey() == Ranks.THREE_OF_A_KIND){
+                if(p1Rank.getValue() > p2Rank.getValue()){
+                    System.out.println("3 of a kind tie. P1 wins with " + p1Rank.getValue());
+                }
+                if(p2Rank.getValue() > p1Rank.getValue()) {
+                    System.out.println("3 of a kind tie. P2 wins with " + p2Rank.getValue());
+                }
+            }
             else if(p1Rank.getKey() == Ranks.PAIR && p2Rank.getKey() == Ranks.PAIR){
                 TieBreakService.breakSinglePairTie(p1, p2);
             }
